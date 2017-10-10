@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace CourseEnrollmentApp.Models
+{
+    public class Address
+    {
+        public int AddressId { get; set; }
+
+        public string Country { get; set; }
+
+        public string City { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string Street { get; set; }
+
+        public string HouseNumber { get; set; }        
+
+        public ICollection<Course> Courses { get; set; }
+        public ICollection<Student> Students { get; set; }
+    }
+}
