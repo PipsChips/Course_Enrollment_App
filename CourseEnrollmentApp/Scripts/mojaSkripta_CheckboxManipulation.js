@@ -60,7 +60,7 @@
                 $archiveSelectedButton.attr('disabled', true);
 
                 $placesLeftOnThisCourse.html(--placesLeftOnThisCourse);
-
+                
                 if (placesLeftOnThisCourse < 0) {
                     $acceptSelectedButton.attr('disabled', true);
                     $('.modal p').html(noticeMssg);

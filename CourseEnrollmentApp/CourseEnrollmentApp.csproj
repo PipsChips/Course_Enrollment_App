@@ -584,6 +584,10 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="DBConnections.config" />
+    <None Include="Properties\PublishProfiles\CourseEnrollmentApp - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\CourseEnrollmentApp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\CourseEnrollmentApp2 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
