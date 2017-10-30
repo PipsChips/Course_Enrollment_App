@@ -1,0 +1,94 @@
+﻿@using CourseEnrollmentApp.Models
+@model IEnumerable<Course>
+
+@{
+    ViewBag.Title = "Course Editor (Admin)";
+}
+
+<h2>Courses Editor</h2>
+<br />
+<p>
+    @Html.ActionLink("Create New Course", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Teacher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            Max numberof studs
+        </th>
+        <th>
+            Places left
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Available)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.FirstName)
+                @Html.DisplayFor(modelItem => item.Teacher.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.City),
+                @Html.DisplayFor(modelItem => item.Address.Country)
+            </td>
+            <td style="text-align: center">
+                @Html.DisplayFor(modelItem => item.MaxNumberOfStudents)
+            </td>
+
+            <td style="text-align: center">
+                @Html.HiddenFor(modelItem => item.CurrentNumOfStudents)
+                @(item.MaxNumberOfStudents - item.CurrentNumOfStudents) 
+            </td>
+
+            <td style="text-align: center">
+                @if (item.Available)
+                {
+                    @:Yes
+                }
+                else
+                {
+                    @:No
+                }
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+            </td>
+        </tr>
+    }
+
+</table>

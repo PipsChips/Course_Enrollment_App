@@ -1,0 +1,104 @@
+﻿@using CourseEnrollmentApp.Models
+@model IEnumerable<Course>
+
+@{
+    ViewBag.Title = "List of Courses";
+}
+
+<h2>Courses we offer</h2>
+<hr />
+
+<div>
+    @using (Html.BeginForm("CoursesList", "StudentEnrollments", FormMethod.Get))
+    {
+        <strong>Soritng options: </strong>
+        <label>
+            @Html.RadioButton("option", "All") All Courses
+        </label>
+        <label>
+            @Html.RadioButton("option", "Available") Available Courses
+        </label>
+        <br />
+        <strong>Search for courses: </strong>
+        @Html.TextBox("Search", null, htmlAttributes: new { @placeholder = "Enter Course name" })
+        <input type="submit" value="Search" />
+    }
+</div>
+<hr />
+
+
+<table class="table">
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td>
+                There is no matching records. Please try again.
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Available)
+            </th>
+            <th></th>
+        </tr>
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.FirstName)
+                    @Html.DisplayFor(modelItem => item.Teacher.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.Street)
+                    @Html.DisplayFor(modelItem => item.Address.HouseNumber)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Address.City),
+                    @Html.DisplayFor(modelItem => item.Address.Country)
+                </td>
+                <td id="Available">
+                    @if (item.Available)
+                    {
+                        @:Yes
+                    }
+                    else
+                    {
+                        @:No
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Apply to this course", "Enroll", "StudentEnrollments", new { id = item.CourseId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+

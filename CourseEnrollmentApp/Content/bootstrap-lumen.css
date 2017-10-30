@@ -231,6 +231,7 @@ th {
   tr,
   img {
     page-break-inside: avoid;
+    margin: 5px 5px 5px 5px;
   }
   img {
     max-width: 100% !important;
@@ -2492,7 +2493,7 @@ table th[class*="col-"] {
     border-bottom: 0;
   }
 }
-fieldset {
+/*fieldset {
   padding: 0;
   margin: 0;
   border: 0;
@@ -2508,7 +2509,7 @@ legend {
   color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
-}
+}*/
 label {
   display: inline-block;
   max-width: 100%;
@@ -2645,7 +2646,7 @@ input[type="search"] {
 .radio label,
 .checkbox label {
   min-height: 20px;
-  padding-left: 20px;
+  padding-left: 0;
   margin-bottom: 0;
   font-weight: normal;
   cursor: pointer;
@@ -3823,9 +3824,10 @@ tbody.collapse.in {
   border-collapse: separate;
 }
 .input-group[class*="col-"] {
+  color: aqua;
   float: none;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .input-group .form-control {
   position: relative;
@@ -7171,4 +7173,9 @@ a.list-group-item-danger.active:focus {
 }
 .popover {
   color: #555555;
+}
+
+.col-md-10.input-group.date
+{
+
 }

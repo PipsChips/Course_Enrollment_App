@@ -1,0 +1,16 @@
+﻿@using CourseEnrollmentApp.Models
+@model Course
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    @Html.Partial("~/Views/Courses/Shared/_CourseInfo.cshtml", Model)
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CourseId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

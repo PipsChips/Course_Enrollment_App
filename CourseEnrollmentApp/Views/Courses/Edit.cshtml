@@ -1,0 +1,134 @@
+﻿@using CourseEnrollmentApp.ViewModels
+@model CourseViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@Model.Course.Name Course</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Course.CourseId)
+        @Html.HiddenFor(model => model.Course.CurrentNumOfStudents)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Course.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Course.TeacherId, Model.Teachers, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Course.TeacherId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.StartingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.Course.StartingDate, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control" } })*@
+                <div class="col-md-4" style="padding:0">
+                    <div class='input-group date' id='datetimepickerEditIcon'>
+                        @Html.EditorFor(model => model.Course.StartingDate, new { htmlAttributes = new { @class = "form-control", id = "datetimepickerEditText", placeholder = "YYYY/MM/DD" } })
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar">
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Course.StartingDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.AddressId, "Address", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Course.AddressId, Model.Addresses, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Course.AddressId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.MaxNumberOfStudents, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Course.MaxNumberOfStudents, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Course.MaxNumberOfStudents, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.Available, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <label>
+                        @Html.RadioButtonFor(model => model.Course.Available, true) Available
+                    </label>
+                    <br />
+                    <label>
+                        @Html.RadioButtonFor(model => model.Course.Available, false) Not Available
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.Course.Available, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                var startingDate = $("input[name='Course.StartingDate']").attr('value');
+                var splitDate = startingDate.split(".", 3);
+                console.log(splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0]);
+
+                var editCreateCalendarSettings = {
+                    viewMode: 'years',
+                    format: 'YYYY/MM/DD',
+                    daysOfWeekDisabled: [0, 6],
+                    //defaultDate: new Date(splitDate[2], splitDate[1] - 1, splitDate[0]),
+                    minDate: new Date(),
+                    icons: {
+                        date: "fa fa-calendar",
+                    }
+                };
+
+                $('#datetimepickerEditText').datetimepicker(editCreateCalendarSettings);
+
+                $('#datetimepickerEditIcon').datetimepicker(editCreateCalendarSettings);
+            });
+        });
+    </script>
+}

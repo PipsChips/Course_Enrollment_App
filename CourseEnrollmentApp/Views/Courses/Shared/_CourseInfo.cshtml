@@ -1,0 +1,95 @@
+﻿@using CourseEnrollmentApp.Models
+@model Course
+
+<h4>@Model.Name Course</h4>
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Teacher)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Teacher.FirstName)
+        @Html.DisplayFor(model => model.Teacher.LastName)
+
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.StartingDate)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.StartingDate)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Address)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Address.City)
+        @Html.DisplayFor(model => model.Address.Country),
+        @Html.DisplayFor(model => model.Address.Street)
+        @Html.DisplayFor(model => model.Address.HouseNumber)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.MaxNumberOfStudents)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.MaxNumberOfStudents)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Available)
+    </dt>
+
+    <dd>
+        @if (Model.Available)
+            {
+            @:Yes
+                }
+            else
+            {
+            @:No
+            }
+    </dd>
+
+    <dt>
+        @Html.DisplayName("Enrolled students")
+    </dt>
+
+    @if (Model.Enrollments.Where(e => e.Status == EnrollmentStatus.Accepted).Count() > 0)
+    {
+        var num = 1;
+
+        foreach (var enrollment in Model.Enrollments.Where(e => e.Status == EnrollmentStatus.Accepted))
+        {
+            <dd>
+                @num.
+                @Html.DisplayFor(m => enrollment.Student.LastName)
+                @Html.DisplayFor(m => enrollment.Student.FirstName)
+            </dd>
+
+            num++;
+        }
+    }
+    else
+    {
+        <dd>
+            No one enrolled this course yet
+        </dd>
+    }
+</dl>
+

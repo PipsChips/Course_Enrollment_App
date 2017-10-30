@@ -1,0 +1,255 @@
+﻿@using CourseEnrollmentApp.Models
+@model IEnumerable<Enrollment>
+
+@{
+    ViewBag.Title = "Process Enrollments (Admin)";
+}
+
+@helper AjaxCallOnButtonClick(string action, int enrollmentId, string bootstrapClass = "", string question = "")
+{
+    <li class="@bootstrapClass" style="font-size:15px;">
+        @Ajax.ActionLink(action, action, new { id = enrollmentId },
+           new AjaxOptions
+           {
+               HttpMethod = "Post",
+               OnSuccess = "window.location.reload()",
+               Confirm = question
+           })
+    </li>
+}
+
+<br />
+
+<div class="col-md-6">
+    @using (Html.BeginForm("Index", "AdminEnrollments", FormMethod.Get))
+    {
+        <strong>Sorting options: </strong>
+        @:&nbsp
+        <label>
+            @Html.RadioButton("option", "All") All
+        </label>
+        @:&nbsp
+        <label>
+            @Html.RadioButton("option", "Undefined") Undefined
+        </label>
+        @:&nbsp
+        <label>
+            @Html.RadioButton("option", "Accepted") Accepted
+        </label>
+        @:&nbsp
+        <label>
+            @Html.RadioButton("option", "Declined") Declined
+        </label>
+        @:&nbsp
+        <label>
+            @Html.RadioButton("option", "Archived") Archived
+        </label>
+        <br />
+
+        <strong>Search by student's name: </strong>
+        @:&nbsp
+        @Html.TextBox("search", null, htmlAttributes: new { @placeholder = "Enter student's name" })
+        <input type="submit" name="submit" value="Search" />
+    }
+    <br />
+</div>
+
+@using (Html.BeginForm("ProcessEnrollments", "AdminEnrollments", FormMethod.Post))
+{
+    <div class="col-md-6 btn-group-sm" style="text-align:right">
+        <button type="submit" name="action" value="accept" class="btn btn-success">Accept Selected</button>
+        <button type="submit" name="action" value="decline" class="btn btn-warning">Decline Selected</button>
+        <br />
+        <button type="submit" name="action" value="archive" class="btn btn-default">Archive Selected</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">Delete Selected</button>
+    </div>
+
+    <table class="table table-bordered" id="enrollmentsTable">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Student.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfEnrollment)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.Course.CourseId)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.Course.CurrentNumOfStudents)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.Course.MaxNumberOfStudents)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course.Name)
+            </th>
+            <th style="text-align:center;">
+                Places left
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.Course.Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course.Address)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ClientIP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientDNS)
+            </th>*@
+            <th id="statusColumn" style="text-align:center;">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th style="text-align:center;">
+                Edit Status
+            </th>
+            <th style="text-align:center; width:20px">
+                Multi-Select
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            var color = "";
+
+            switch (item.Status)
+            {
+                case EnrollmentStatus.Undefined:
+                    color = "info";
+                    break;
+                case EnrollmentStatus.Accepted:
+                    color = "success";
+                    break;
+                case EnrollmentStatus.Declined:
+                    color = "warning";
+                    break;
+                case EnrollmentStatus.Archived:
+                    color = "active";
+                    break;
+            }
+
+            <tr>
+                <td hidden>
+                    @Html.HiddenFor(modelItem => item.EnrollmentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfEnrollment)
+                </td>
+                <td id="courseId" hidden>
+                    @Html.HiddenFor(modelItem => item.Course.CourseId)
+                </td>
+                <td hidden>
+                    @Html.HiddenFor(modelItem => item.Course.CurrentNumOfStudents)
+                </td>
+                <td hidden>
+                    @Html.HiddenFor(modelItem => item.Course.MaxNumberOfStudents)
+                </td>
+                <td id="courseName">
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td id="placesLeft" style="text-align:center; vertical-align:middle; width: 15px;">
+                    @(item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Course.Teacher.FirstName)
+                    @Html.DisplayFor(modelItem => item.Course.Teacher.LastName)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Address.City),
+                    @Html.DisplayFor(modelItem => item.Course.Address.Street)
+                    @Html.DisplayFor(modelItem => item.Course.Address.HouseNumber)
+
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.ClientIP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientDNS)
+                </td>*@
+                <td class=@color>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-link">Edit this</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            @switch (item.Status)
+                            {
+                                case EnrollmentStatus.Undefined:
+                                    if ((item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents) == 0)
+                                    {
+                                        @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success disabled");
+                                    }
+                                    else
+                                    {
+                                        @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success");
+                                    }
+                                    @AjaxCallOnButtonClick("Decline", item.EnrollmentId, "btn btn-warning");
+                                    break;
+                                case EnrollmentStatus.Accepted:
+                                    @AjaxCallOnButtonClick("Decline", item.EnrollmentId, "btn btn-warning");
+                                    @AjaxCallOnButtonClick("Archive", item.EnrollmentId, "btn btn-default");
+                                    break;
+                                case EnrollmentStatus.Declined:
+                                    if ((item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents) == 0)
+                                    {
+                                        @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success disabled");
+                                    }
+                                    else
+                                    {
+                                        @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success");
+                                    }
+                                    @AjaxCallOnButtonClick("Archive", item.EnrollmentId, "btn btn-default");
+                                    break;
+                                case EnrollmentStatus.Archived:
+                                    @AjaxCallOnButtonClick("Delete", item.EnrollmentId, "btn btn-danger", question: "Are you sure?");
+                                    break;
+                            }
+                        </ul>
+                    </div>
+                </td>
+
+                <td style="text-align:center; vertical-align:middle;">
+                    <input type="checkbox" id="enrollmentIds" name="enrollmentIds" value="@item.EnrollmentId" />
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Notice</h4>
+            </div>
+            <div class="modal-body">
+                <p>From now on, you won't be able to accept</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+    @Scripts.Render("~/Scripts/jquery-ui.js")
+    @Scripts.Render("~/Scripts/mojaSkripta_CheckboxManipulation.js")
+}

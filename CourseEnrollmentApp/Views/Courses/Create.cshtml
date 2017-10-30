@@ -1,0 +1,135 @@
+﻿@model CourseEnrollmentApp.ViewModels.CourseViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create new Course</h2>
+     
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Course</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2", @value = Request.Form[Model.Course.Name] })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Course.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Course.TeacherId, Model.Teachers, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Course.TeacherId, "", new { @class = "text-danger" })
+                <button formmethod="get" formaction="AddNewTeacher">Add new teacher</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.StartingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="col-md-4" style="padding:0">
+                    <div class='input-group date' id='datetimepickerCreateIcon'>
+                        @Html.EditorFor(model => model.Course.StartingDate, new { htmlAttributes = new { @class = "form-control", id = "datetimepickerCreateText", placeholder="YYYY/MM/DD", type = "date" } })
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar">
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Course.StartingDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.AddressId, "Course location", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Course.AddressId, Model.Addresses, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Course.AddressId, "", new { @class = "text-danger" })
+                <button formmethod="get" formaction="AddNewAddress">Add new address</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.MaxNumberOfStudents, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Course.MaxNumberOfStudents, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Course.MaxNumberOfStudents, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Course.Available, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.RadioButtonFor(model => model.Course.Available, true) Available
+                    <br />
+                    @Html.RadioButtonFor(model => model.Course.Available, false) Not Available
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+
+                var editCreateCalendarSettings = {
+                    viewMode: 'years',
+                    format: 'YYYY/MM/DD',
+                    daysOfWeekDisabled: [0, 6],
+                    minDate: new Date(yyyy, mm - 1, dd + 7),
+                    icons: {
+                        date: "fa fa-calendar",
+                    }
+                };
+
+                $('#datetimepickerCreateText').datetimepicker(editCreateCalendarSettings);
+
+                $('#datetimepickerCreateIcon').datetimepicker(editCreateCalendarSettings);
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+

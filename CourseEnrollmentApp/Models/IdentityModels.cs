@@ -3,6 +3,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
+using CourseEnrollmentApp.EntityConfiguration;
 
 namespace CourseEnrollmentApp.Models
 {
@@ -25,11 +28,12 @@ namespace CourseEnrollmentApp.Models
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Education> Educations { get; set; }
-
+        public DbSet<Enrollment> Enrollments { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("ApplicationDbContext")
         {
+
         }
 
         public static ApplicationDbContext Create()
@@ -37,6 +41,16 @@ namespace CourseEnrollmentApp.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<CourseEnrollmentApp.Models.Course> Courses { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.Add(new AddressConfiguration());
+            modelBuilder.Configurations.Add(new CourseConfiguration());
+            modelBuilder.Configurations.Add(new EnrollmentConfiguration());
+            modelBuilder.Configurations.Add(new StudentConfiguration());
+            modelBuilder.Configurations.Add(new EducationConfiguration());
+            modelBuilder.Configurations.Add(new TeacherConfiguration());
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
