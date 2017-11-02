@@ -587,6 +587,7 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="DBConnections.config" />
+    <None Include="Properties\PublishProfiles\CourseEnrollment - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -742,7 +743,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Courses\EditorTemplates\" />
     <Folder Include="Views\PageFunctionalities\" />
     <Folder Include="Views\StudentEnrollments\EditorTemplates\" />

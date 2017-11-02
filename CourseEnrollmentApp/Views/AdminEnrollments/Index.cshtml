@@ -193,7 +193,7 @@
                             @switch (item.Status)
                             {
                                 case EnrollmentStatus.Undefined:
-                                    if (!item.Course.Available)
+                                    if ((item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents) == 0)
                                     {
                                         @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success disabled");
                                     }
@@ -208,7 +208,7 @@
                                     @AjaxCallOnButtonClick("Archive", item.EnrollmentId, "btn btn-default");
                                     break;
                                 case EnrollmentStatus.Declined:
-                                    if (!item.Course.Available)
+                                    if ((item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents) == 0)
                                     {
                                         @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success disabled");
                                     }

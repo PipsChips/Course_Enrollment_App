@@ -32,7 +32,7 @@
             @Html.LabelFor(m => m.Student.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-7" style="padding:0">
                 <div class='input-group date' id='datetimepickerBirthIcon'>
-                    @Html.EditorFor(m => m.Student.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @id = "datetimepickerBirthText", @value = "", @placeholder = "YYYY/MM/DD", @type = "date" } })
+                    @Html.EditorFor(m => m.Student.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @id = "datetimepickerBirthText", @value = "", @placeholder = "YYYY/MM/DD", @type = "text" } })
                     <span class="input-group-addon">
                         <span class="fa fa-calendar">
                         </span>
@@ -105,7 +105,7 @@
             @Html.LabelFor(m => m.Student.EducationHistory.GraduationDate, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-7" style="padding:0">
                 <div class='input-group date' id='datetimepickerGraduationIcon'>
-                    @Html.EditorFor(m => m.Student.EducationHistory.GraduationDate, new { htmlAttributes = new { @class = "form-control", id = "datetimepickerGraduationText", placeholder = "YYYY/MM/DD", type = "date" } })
+                    @Html.EditorFor(m => m.Student.EducationHistory.GraduationDate, new { htmlAttributes = new { @class = "form-control", @id = "datetimepickerGraduationText", placeholder = "YYYY/MM/DD", type = "text" } })
                     <span class="input-group-addon">
                         <span class="fa fa-calendar">
                         </span>

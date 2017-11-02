@@ -46,10 +46,7 @@ namespace CourseEnrollmentApp.Controllers
         {
             var enrollment = Enrollment.GetSingleEnrollmentById(id);
 
-            if (enrollment.Course.Available)
-            {
-                AcceptEnrollment(enrollment);
-            }
+            AcceptEnrollment(enrollment);
 
             return RedirectToAction("Index");
         }
@@ -104,10 +101,7 @@ namespace CourseEnrollmentApp.Controllers
             {
                 foreach (var enrollment in enrollments)
                 {
-                    if (enrollment.Course.Available)
-                    {
-                        AcceptEnrollment(enrollment);
-                    }
+                    AcceptEnrollment(enrollment);
                 }
             }
             else if (action == "decline")

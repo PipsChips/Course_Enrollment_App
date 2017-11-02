@@ -25,7 +25,7 @@ namespace CourseEnrollmentApp.Models
         public string Description { get; set; }
 
         [Display(Name = "Starting Date")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required]
         public DateTime StartingDate { get; set; }
 

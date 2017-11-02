@@ -132,7 +132,8 @@
             if (listOfDistinctCourseIdsOfCheckedDecleinedAndUndefinedRows.length > 0) {
                 var isThere;
                 for (var i = 0; i < listOfDistinctCourseIdsOfCheckedDecleinedAndUndefinedRows.length; i++) {
-                    var numOfPlacesLeftForThisCourse = parseInt($parentTable.find("input[name='item.Course.CourseId'][value='" + listOfDistinctCourseIdsOfCheckedDecleinedAndUndefinedRows[i] + "']").closest("tr").find("td[id='placesLeft']").html());
+                    var numOfPlacesLeftForThisCourse = parseInt($parentTable.find("input[name='item.Course.CourseId'][value='" +
+                        listOfDistinctCourseIdsOfCheckedDecleinedAndUndefinedRows[i] + "']").closest("tr").find("td[id='placesLeft']").html());
 
                     if (numOfPlacesLeftForThisCourse >= 0) {
                         isThere = false;
