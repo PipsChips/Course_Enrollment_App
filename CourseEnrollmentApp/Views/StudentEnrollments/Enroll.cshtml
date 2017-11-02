@@ -10,7 +10,11 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(m => m.CourseId)
+
+    for (int i = 0; i < Model.CourseIds.Count(); i++)
+    {
+        @Html.HiddenFor(m => m.CourseIds[i]);
+    }
 
     <fieldset form="ApplicationForm" class="col-md-5">
         <legend>Personal Information</legend>
@@ -119,7 +123,7 @@
 
     <div class="form-group alert">
         <div class="col-md-5">
-            <button type="submit" value="" class="btn btn-success btn-lg btn-block" style="margin:15px; font-size: 20px;">Enroll this Course</button>
+            <button type="submit" value="" class="btn btn-success btn-lg btn-block" style="margin:15px; font-size: 20px;">Enroll</button>
         </div>
     </div>
 }

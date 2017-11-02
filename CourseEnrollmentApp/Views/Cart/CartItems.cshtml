@@ -1,0 +1,90 @@
+﻿@model IEnumerable<CourseEnrollmentApp.Models.Course>
+
+@{
+    ViewBag.Title = "Your Cart";
+
+    IList<int> CourseIds = new List<int>();
+}
+
+<h2>Your Courses</h2>
+
+<p>
+    @Html.ActionLink("Add more courses to your cart", "CoursesList", controllerName: "StudentEnrollments")
+</p>
+
+@if (Model == null || Model.Count() == 0)
+{
+    <strong>Your Cart is empty!</strong>
+    @ViewBag.Message
+}
+else
+{
+    using (Html.BeginForm("Enroll", "StudentEnrollments", FormMethod.Get))
+    {
+        foreach (var course in Model)
+        {
+            @Html.Hidden("CourseId", course.CourseId)
+        }
+        
+        <input type="submit" value="Enroll all Courses" />
+    }
+
+    <table class="table">
+        <tr>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.CourseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Available)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Available)
+                </td>
+                <td>
+                    @Html.ActionLink("Remove from Cart", "RemoveItem", new { id = item.CourseId })
+                </td>
+                <td>
+                    @Html.ActionLink("Apply to this course", actionName: "Enroll", controllerName: "StudentEnrollments", routeValues: new { CourseId = item.CourseId }, htmlAttributes: null)
+                </td>
+            </tr>
+        }
+        
+    </table>
+}
+
+
+
+

@@ -8,7 +8,12 @@ namespace CourseEnrollmentApp.ViewModels
 {
     public class EnrollViewModel
     {
-        public int CourseId { get; set; }
+        public List<int> CourseIds { get; set; }
         public Student Student { get; set; }
+
+        //public EnrollViewModel()
+        //{
+        //    this.CourseIds = new List<int>();
+        //}
     }
 }

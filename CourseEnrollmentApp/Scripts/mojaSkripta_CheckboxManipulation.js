@@ -1,8 +1,28 @@
 ﻿$(document).ready(function () {
+    var $questionMark = $(this).find("i.fa");
+    $questionMark.click(function () {
+        var infoMssg = "If enrollment's status is <i>Undefined</i>, you can only <i>Accept*</i>/<i>Decline</i> it.<br />"
+            + "If enrollment's status is <i>Accepted</i>, you can only <i>Decline</i>/<i>Archive</i> it.<br />"
+            + "If enrollment's status is <i>Declined</i>, you can only <i>Accept*</i>/<i>Archive</i> it.<br />"
+            + "If enrollment's status is <i>Archived</i>, you can only <i>Delete</i> it."
+            + "<br /><br />* You can only accept enrollment(s) if associated course is not filled already.";
+        $('.modal p').html(infoMssg);
+        $('.modal').modal('show');
+    });
+
+    if ($("input[type='checkbox']:checked").length === 0) {
+        $(this).find("button[name='action']").attr('disabled', true);
+    }
+
+    var counter = 0;
     $("input[type='checkbox']").click(function () {
+        if (counter === 0) {            
+            $(this).closest("form").find("button[name='action']").attr('disabled', false);
+            counter++;
+        }
+
         var $parentRow = $(this).closest('tr');
         var $parentTable = $(this).closest("table");
-
         var courseId = $parentRow.find("input[name = 'item.Course.CourseId']").val();
         var courseName = $parentRow.find("td").eq(7)[0].innerText;
         var enrollmentStatus = $parentRow.find("td").eq(10)[0].innerText;
@@ -34,11 +54,11 @@
         var $allCheckedCheckBoxes = $parentTable.find("[type=checkbox]:checked");
 
         if (this.checked) {
-            if (enrollmentStatus == "Accepted") {
+            if (enrollmentStatus === "Accepted") {
                 $acceptSelectedButton.attr('disabled', true);
                 $deleteSelectedButton.attr('disabled', true);
             }
-            else if (enrollmentStatus == "Declined") {
+            else if (enrollmentStatus === "Declined") {
                 $declineSelectedButton.attr('disabled', true);
                 $deleteSelectedButton.attr('disabled', true);
 
@@ -50,12 +70,12 @@
                     $('.modal').modal('show');
                 }
             }
-            else if (enrollmentStatus == "Archived") {
+            else if (enrollmentStatus === "Archived") {
                 $archiveSelectedButton.attr('disabled', true);
                 $acceptSelectedButton.attr('disabled', true);
                 $declineSelectedButton.attr('disabled', true);
             }
-            else if (enrollmentStatus == "Undefined") {
+            else if (enrollmentStatus === "Undefined") {
                 $deleteSelectedButton.attr('disabled', true);
                 $archiveSelectedButton.attr('disabled', true);
 
@@ -72,32 +92,34 @@
             editThis_DropDownBtnGroup.attr('disabled', true);
         }
         else {
-            if (enrollmentStatus == "Declined" || enrollmentStatus == "Undefined") {
+            if (enrollmentStatus === "Declined" || enrollmentStatus === "Undefined") {
                 $placesLeftOnThisCourse.html(++placesLeftOnThisCourse);
             }
 
-            if ($checkedAcceptedRows.length == 0 && $checkedArchivedRows.length == 0
-                && isThere_more_Checked_Declined_Or_Undefined_Enrollments_Per_Course_Than_Places_Left_In_Course() == false) {
+            if ($checkedAcceptedRows.length === 0 && $checkedArchivedRows.length === 0
+                && isThere_more_Checked_Declined_Or_Undefined_Enrollments_Per_Course_Than_Places_Left_In_Course() === false) {
 
                 $acceptSelectedButton.attr('disabled', false);
             }
 
-            if ($checkedArchivedRows.length == 0 && $checkedDeclinedRows.length == 0) {
+            if ($checkedArchivedRows.length === 0 && $checkedDeclinedRows.length === 0) {
                 $declineSelectedButton.attr('disabled', false);
             }
 
-            if ($checkedAcceptedRows.length == 0 && $checkedDeclinedRows.length == 0 && $checkedUndefinedRows.length == 0) {
+            if ($checkedAcceptedRows.length === 0 && $checkedDeclinedRows.length === 0 && $checkedUndefinedRows.length === 0) {
                 $deleteSelectedButton.attr('disabled', false);
             }
 
-            if ($checkedArchivedRows.length == 0 && $checkedUndefinedRows.length == 0) {
+            if ($checkedArchivedRows.length === 0 && $checkedUndefinedRows.length === 0) {
                 $archiveSelectedButton.attr('disabled', false);
             }
 
             $("#enrollmentsTable td[id='placesLeft']").each(setPlacesLeftCellToRedIfLessThanZero);
 
-            if ($allCheckedCheckBoxes.length == 0) {
+            if ($allCheckedCheckBoxes.length === 0) {
                 editThis_DropDownBtnGroup.attr('disabled', false);
+                $(this).closest("form").find("button[name='action']").attr('disabled', true);
+                counter = 0;
             }
         }
 

@@ -36,25 +36,18 @@ namespace CourseEnrollmentApp.Controllers
         }
 
         [HttpGet] 
-        public ActionResult Enroll(int id)
+        public ActionResult Enroll(params int[] CourseId)
         {
-            var course = db.Courses.Find(id);
+            var viewModel = new EnrollViewModel();
+            viewModel.Student = new Student();
+            viewModel.CourseIds = new List<int>();
 
-            if (course.Available)
+            foreach (var id in CourseId)
             {
-                var viewModel = new EnrollViewModel()
-                {
-                    CourseId = id,
-                    Student = new Student()
-                };
-
-                return View(viewModel);
-            }
-            else
-            {
-                return RedirectToAction("CoursesList");
+                viewModel.CourseIds.Add(id);
             }
             
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -66,25 +59,39 @@ namespace CourseEnrollmentApp.Controllers
             }
             else
             {
+                if (Session["AlreadyAppliedCourses"] == null)
+                {
+                    Session["AlreadyAppliedCourses"] = new List<int>();
+                }
+
                 var student = viewModel.Student;
                 student.Address.AddressType = AddressType.StudentAddress;
 
-                var courseId = viewModel.CourseId;
+                var courseIds = viewModel.CourseIds;
 
-                var enrollment = new Enrollment()
+                for (int i = 0; i < courseIds.Count(); i++)
                 {
-                    CourseId = courseId,
-                    StudentId = student.StudentId,
-                    DateOfEnrollment = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd H:mm")),
-                    Status = EnrollmentStatus.Undefined,
-                    ClientIP = Request.UserHostAddress,
-                    ClientDNS = Request.UserHostName
-                };
+                    var enrollment = new Enrollment()
+                    {
+                        CourseId = courseIds[i],
+                        StudentId = student.StudentId,
+                        DateOfEnrollment = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd H:mm")),
+                        Status = EnrollmentStatus.Undefined,
+                        ClientIP = Request.UserHostAddress,
+                        ClientDNS = Request.UserHostName
+                    };
 
-                student.Enrollments.Add(enrollment);
-                db.Students.Add(student);
+                    student.Enrollments.Add(enrollment);
+                    db.Students.Add(student);
+
+                    ((IList<int>)Session["AlreadyAppliedCourses"]).Add(courseIds[i]);
+                    Session["Cart"] = ((IList<Course>)Session["Cart"]).Where(c => c.CourseId != courseIds[i]).ToList();
+                }
+
                 db.SaveChanges();
             }
+
+            ViewBag.Message = "You've successfully applied to this course(s)!";
 
             return RedirectToAction("CoursesList");
         }

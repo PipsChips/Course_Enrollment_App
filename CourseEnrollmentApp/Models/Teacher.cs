@@ -11,13 +11,18 @@ namespace CourseEnrollmentApp.Models
         public int TeacherId { get; set; }
 
         [Display(Name = "First name")]
+        [Required]
         public string FirstName { get; set; }
 
         [Display(Name = "Last name")]
+        [Required]
         public string LastName { get; set; }
 
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [Required]
         [Display(Name = "Mobile number")]
         public string MobileNumber { get; set; }
 

@@ -232,6 +232,7 @@ namespace CourseEnrollmentApp.Controllers
         [HttpPost]
         public ActionResult AddNewAddress(Address address)
         {
+            address.AddressType = AddressType.CourseLocation;
             db.Addresses.Add(address);
             db.SaveChanges();
 

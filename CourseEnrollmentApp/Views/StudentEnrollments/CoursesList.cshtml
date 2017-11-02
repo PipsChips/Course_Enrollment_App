@@ -5,6 +5,15 @@
     ViewBag.Title = "List of Courses";
 }
 
+@helper ApplyToThisCourseActionLink(int idValue, string enabledOrDisabled = "") { 
+    @Html.ActionLink("Apply to this course", "Enroll", "StudentEnrollments", new { CourseId = idValue}, new { @class = "btn btn-primary " + enabledOrDisabled })
+}
+
+@helper AddToCartActionLink(int idValue, string enabledOrDisabled = "")
+{
+    <a class="btn btn-link @enabledOrDisabled" href="@Url.Action("AddToCart", "Cart", new { id = idValue })">Add to cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+}
+
 <h2>Courses we offer</h2>
 <hr />
 
@@ -93,8 +102,54 @@
                         @:No
                     }
                 </td>
+
                 <td>
-                    @Html.ActionLink("Apply to this course", "Enroll", "StudentEnrollments", new { id = item.CourseId }, new { @class = "btn btn-primary" })
+                    @if (item.Available)
+                    {
+                        if (Session["AlreadyAppliedCourses"] == null)
+                        {
+                            if (Session["Cart"] == null)
+                            {
+                                @ApplyToThisCourseActionLink(item.CourseId)
+                                @AddToCartActionLink(item.CourseId)
+                            }
+                            else
+                            {
+                                if (((IEnumerable<Course>)Session["Cart"]).Any(c => c.CourseId == item.CourseId))
+                                {
+                                    @ApplyToThisCourseActionLink(item.CourseId)
+                                    @AddToCartActionLink(item.CourseId, " disabled")
+                                }
+                                else
+                                {
+                                    @ApplyToThisCourseActionLink(item.CourseId)
+                                    @AddToCartActionLink(item.CourseId)
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (((ICollection<int>)Session["AlreadyAppliedCourses"]).Contains(item.CourseId))
+                            {
+                                <p><i class="fa fa-check"></i> Successfully applied!</p>
+                            }
+                            else if (((IEnumerable<Course>)Session["Cart"]).Any(c => c.CourseId == item.CourseId))
+                            {
+                                @ApplyToThisCourseActionLink(item.CourseId)
+                                @AddToCartActionLink(item.CourseId, " disabled")
+                            }
+                            else
+                            {
+                                @ApplyToThisCourseActionLink(item.CourseId)
+                                @AddToCartActionLink(item.CourseId)
+                            }
+                        }
+                    }
+                    else
+                    {
+                        @ApplyToThisCourseActionLink(item.CourseId, " disabled")
+                        @AddToCartActionLink(item.CourseId, " disabled")
+                    }
                 </td>
             </tr>
         }

@@ -5,6 +5,8 @@
     ViewBag.Title = "Process Enrollments (Admin)";
 }
 
+@Styles.Render("~/Content/help-tip.css")
+
 @helper AjaxCallOnButtonClick(string action, int enrollmentId, string bootstrapClass = "", string question = "")
 {
     <li class="@bootstrapClass" style="font-size:15px;">
@@ -56,12 +58,13 @@
 
 @using (Html.BeginForm("ProcessEnrollments", "AdminEnrollments", FormMethod.Post))
 {
+    <br />
     <div class="col-md-6 btn-group-sm" style="text-align:right">
         <button type="submit" name="action" value="accept" class="btn btn-success">Accept Selected</button>
         <button type="submit" name="action" value="decline" class="btn btn-warning">Decline Selected</button>
-        <br />
         <button type="submit" name="action" value="archive" class="btn btn-default">Archive Selected</button>
         <button type="submit" name="action" value="delete" class="btn btn-danger">Delete Selected</button>
+        <label class="btn btn-link"><i class="fa fa-question fa-2x" aria-hidden="true"></i></label>
     </div>
 
     <table class="table table-bordered" id="enrollmentsTable">
@@ -190,7 +193,7 @@
                             @switch (item.Status)
                             {
                                 case EnrollmentStatus.Undefined:
-                                    if ((item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents) == 0)
+                                    if (!item.Course.Available)
                                     {
                                         @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success disabled");
                                     }
@@ -205,7 +208,7 @@
                                     @AjaxCallOnButtonClick("Archive", item.EnrollmentId, "btn btn-default");
                                     break;
                                 case EnrollmentStatus.Declined:
-                                    if ((item.Course.MaxNumberOfStudents - item.Course.CurrentNumOfStudents) == 0)
+                                    if (!item.Course.Available)
                                     {
                                         @AjaxCallOnButtonClick("Accept", item.EnrollmentId, "btn btn-success disabled");
                                     }
@@ -239,7 +242,7 @@
                 <h4 class="modal-title">Notice</h4>
             </div>
             <div class="modal-body">
-                <p>From now on, you won't be able to accept</p>
+                <p></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
