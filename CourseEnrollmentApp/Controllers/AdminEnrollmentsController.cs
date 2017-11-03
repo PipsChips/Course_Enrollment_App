@@ -157,7 +157,7 @@ namespace CourseEnrollmentApp.Controllers
             else
             {
                 listOfEnrollments = GetListOfEnrollmentsByStatus(status)
-                .Where(e => e.Student.FirstName.ToLower().StartsWith(search.ToLower()) || search == "");
+                    .Where(e => e.Student.FirstName.ToLower().StartsWith(search.ToLower()) || search == "");
             }
 
             return listOfEnrollments;

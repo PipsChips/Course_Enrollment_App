@@ -24,6 +24,7 @@ namespace CourseEnrollmentApp.Controllers
             {
                 List<Course> coursesInCart = new List<Course>();
                 coursesInCart.Add(course);
+
                 Session["Cart"] = coursesInCart;
             }
             else
@@ -44,9 +45,19 @@ namespace CourseEnrollmentApp.Controllers
         public ActionResult RemoveItem(int id)
         {
             var itemToRemove = ((IList<Course>)Session["Cart"]).Single(c => c.CourseId == id);
+
             ((IList<Course>)Session["Cart"]).Remove(itemToRemove);
 
             return View("CartItems", (IEnumerable<Course>)Session["Cart"]);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

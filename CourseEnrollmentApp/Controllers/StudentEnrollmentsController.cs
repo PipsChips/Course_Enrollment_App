@@ -30,8 +30,8 @@ namespace CourseEnrollmentApp.Controllers
             }
             else
             {
-                result = GetCourses().Where(c => c.Name.ToLower().StartsWith(search.ToLower()) 
-                    || search == null || search == "").ToList();
+                result = GetCourses().Where(c => c.Name.ToLower()
+                    .StartsWith(search.ToLower()) || search == null || search == "").ToList();
             }
 
             return View(result);
