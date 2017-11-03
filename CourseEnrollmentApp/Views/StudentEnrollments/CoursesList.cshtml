@@ -6,7 +6,7 @@
 }
 
 @helper ApplyToThisCourseActionLink(int idValue, string enabledOrDisabled = "") { 
-    @Html.ActionLink("Apply to this course", "Enroll", "StudentEnrollments", new { CourseId = idValue}, new { @class = "btn btn-primary " + enabledOrDisabled })
+    @Html.ActionLink("Apply for this course", "Enroll", "StudentEnrollments", new { CourseId = idValue}, new { @class = "btn btn-primary " + enabledOrDisabled })
 }
 
 @helper AddToCartActionLink(int idValue, string enabledOrDisabled = "")

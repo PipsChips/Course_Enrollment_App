@@ -79,7 +79,7 @@ else
                     @Html.ActionLink("Remove from Cart", "RemoveItem", new { id = item.CourseId })
                 </td>
                 <td>
-                    @Html.ActionLink("Apply to this course", actionName: "Enroll", controllerName: "StudentEnrollments", routeValues: new { CourseId = item.CourseId }, htmlAttributes: null)
+                    @Html.ActionLink("Apply for this course", actionName: "Enroll", controllerName: "StudentEnrollments", routeValues: new { CourseId = item.CourseId }, htmlAttributes: null)
                 </td>
             </tr>
         }

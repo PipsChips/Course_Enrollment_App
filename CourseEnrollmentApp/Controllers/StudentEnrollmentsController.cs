@@ -21,15 +21,17 @@ namespace CourseEnrollmentApp.Controllers
 
             if (option == "All")
             {
-                result = GetCourses().Where(c => c.Name.StartsWith(search)).ToList();
+                result = GetCourses().Where(c => c.Name.ToLower().StartsWith(search.ToLower()) || search == "").ToList();
             }
             else if (option == "Available")
             {
-                result = GetCourses().Where(c => c.Available == true && c.Name.StartsWith(search)).ToList();
+                result = GetCourses().Where(c => c.Available == true 
+                    && (c.Name.ToLower().StartsWith(search.ToLower()) || search == "")).ToList();
             }
             else
             {
-                result = GetCourses().Where(c => c.Name.StartsWith(search) || search == null).ToList();
+                result = GetCourses().Where(c => c.Name.ToLower().StartsWith(search.ToLower()) 
+                    || search == null || search == "").ToList();
             }
 
             return View(result);
