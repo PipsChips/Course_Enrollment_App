@@ -85,7 +85,15 @@ namespace CourseEnrollmentApp.Controllers
                     db.Students.Add(student);
 
                     ((IList<int>)Session["AlreadyAppliedCourses"]).Add(courseIds[i]);
-                    Session["Cart"] = ((IList<Course>)Session["Cart"]).Where(c => c.CourseId != courseIds[i]).ToList();
+
+                    if (Session["Cart"] != null)
+                    {
+                        Session["Cart"] = ((IList<Course>)Session["Cart"]).Where(c => c.CourseId != courseIds[i]).ToList();
+                    }
+                    else
+                    {
+                        Session["Cart"] = new List<Course>();
+                    }
                 }
 
                 db.SaveChanges();

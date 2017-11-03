@@ -62,7 +62,9 @@ else
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Teacher.FirstName + " " + item.Teacher.LastName)
+                    @Html.DisplayFor(modelItem => item.Teacher.FirstName)
+                    @Html.DisplayFor(modelItem => item.Teacher.LastName)
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)

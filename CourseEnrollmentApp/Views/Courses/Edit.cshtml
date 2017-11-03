@@ -116,9 +116,10 @@
 
                 var editCreateCalendarSettings = {
                     viewMode: 'years',
-                    format: 'YYYY/MM/DD',
                     daysOfWeekDisabled: [0, 6],
-                    //defaultDate: new Date(splitDate[2], splitDate[1] - 1, splitDate[0]),
+                    //useCurrent: false,
+                    format: 'YYYY/MM/DD',
+                    //defaultDate: moment(),
                     minDate: new Date(),
                     icons: {
                         date: "fa fa-calendar",

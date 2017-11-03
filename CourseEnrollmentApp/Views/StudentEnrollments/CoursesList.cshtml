@@ -147,8 +147,15 @@
                     }
                     else
                     {
-                        @ApplyToThisCourseActionLink(item.CourseId, " disabled")
-                        @AddToCartActionLink(item.CourseId, " disabled")
+                        if (Session["AlreadyAppliedCourses"] != null && ((IList<int>)Session["AlreadyAppliedCourses"]).Contains(item.CourseId))
+                        {
+                            <p><i class="fa fa-check"></i> Successfully applied!</p>
+                        }
+                        else
+                        {
+                            @ApplyToThisCourseActionLink(item.CourseId, " disabled")
+                            @AddToCartActionLink(item.CourseId, " disabled")
+                        }
                     }
                 </td>
             </tr>
