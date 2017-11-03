@@ -11,6 +11,7 @@ using CourseEnrollmentApp.ViewModels;
 
 namespace CourseEnrollmentApp.Controllers
 {
+    [Authorize]
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

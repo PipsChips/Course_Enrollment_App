@@ -5,7 +5,7 @@
             + "If enrollment's status is <i>Accepted</i>, you can only <i>Decline</i>/<i>Archive</i> it.<br />"
             + "If enrollment's status is <i>Declined</i>, you can only <i>Accept*</i>/<i>Archive</i> it.<br />"
             + "If enrollment's status is <i>Archived</i>, you can only <i>Delete</i> it."
-            + "<br /><br />* You can only accept enrollment(s) if associated course is not filled already.";
+            + "<br /><br />* You can only accept enrollment(s) if associated course isn't already filled.";
         $('.modal p').html(infoMssg);
         $('.modal').modal('show');
     });

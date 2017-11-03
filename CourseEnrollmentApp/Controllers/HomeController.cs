@@ -10,7 +10,7 @@ namespace CourseEnrollmentApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "AdminEnrollments");
         }
 
         public ActionResult About()

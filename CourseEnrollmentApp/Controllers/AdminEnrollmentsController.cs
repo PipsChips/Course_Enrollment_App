@@ -8,6 +8,7 @@ using System.Data.Entity;
 
 namespace CourseEnrollmentApp.Controllers
 {
+    [Authorize]
     public class AdminEnrollmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
