@@ -9,7 +9,7 @@
 <h2>Your Courses</h2>
 
 <p>
-    @Html.ActionLink("Add more courses to your cart", "CoursesList", controllerName: "StudentEnrollments")
+    @Html.ActionLink("Add more courses to your cart", "CoursesList", controllerName: "StudentEnrollments", routeValues: null, htmlAttributes: new { @class="btn btn-link" })
 </p>
 
 @if (Model == null || Model.Count() == 0)
@@ -26,7 +26,7 @@ else
             @Html.Hidden("CourseId", course.CourseId)
         }
         
-        <input type="submit" value="Enroll all Courses" />
+        <input type="submit" value="Apply for all Courses in Cart" class="btn btn-lg btn-info" />
     }
 
     <table class="table">
@@ -76,10 +76,10 @@ else
                     @Html.DisplayFor(modelItem => item.Available)
                 </td>
                 <td>
-                    @Html.ActionLink("Remove from Cart", "RemoveItem", new { id = item.CourseId })
+                    @Html.ActionLink("Remove item from Cart", "RemoveItem", new { id = item.CourseId }, new { @class = "btn btn-sm btn-link" })
                 </td>
                 <td>
-                    @Html.ActionLink("Apply for this course", actionName: "Enroll", controllerName: "StudentEnrollments", routeValues: new { CourseId = item.CourseId }, htmlAttributes: null)
+                    @Html.ActionLink("Apply for this course", actionName: "Enroll", controllerName: "StudentEnrollments", routeValues: new { CourseId = item.CourseId }, htmlAttributes: new { @class = "btn btn-sm btn-info" })
                 </td>
             </tr>
         }
