@@ -48,7 +48,13 @@
                 @*@Html.TextBoxFor(model => model.Course.StartingDate, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control" } })*@
                 <div class="col-md-4" style="padding:0">
                     <div class='input-group date' id='datetimepickerEditIcon'>
-                        @Html.EditorFor(model => model.Course.StartingDate, new { htmlAttributes = new { @class = "form-control", id = "datetimepickerEditText", placeholder = "YYYY/MM/DD", @type = "text" } })
+                        @Html.EditorFor(model => model.Course.StartingDate, "{0:yyyy/MM/dd}",
+                            new { htmlAttributes = new { @class = "form-control",
+                                @id = "datetimepickerEditText",
+                                @placeholder = "DD/MM/YYYY",
+                                @type = "text",
+                                /*@value = Model.Course.StartingDate*/
+                            } })
                         <span class="input-group-addon">
                             <span class="fa fa-calendar">
                             </span>
@@ -117,12 +123,12 @@
                 var editCreateCalendarSettings = {
                     viewMode: 'years',
                     daysOfWeekDisabled: [0, 6],
-                    //useCurrent: false,
+                    useCurrent: false,
                     format: 'YYYY/MM/DD',
-                    //defaultDate: moment(),
-                    minDate: new Date(),
+                    //defaultDate: splitDate[0] + "." + splitDate[1] + "." + splitDate[2],
+                    //minDate: new Date(),
                     icons: {
-                        date: "fa fa-calendar",
+                        date: "fa fa-calendar"
                     }
                 };
 

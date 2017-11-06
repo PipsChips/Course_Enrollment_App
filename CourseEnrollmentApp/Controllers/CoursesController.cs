@@ -59,25 +59,28 @@ namespace CourseEnrollmentApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(CourseViewModel model)
         {
-            var addresses = GetAddressesAsSelectListItems();
-
-            var teachers = GetTeachersAsSelectListItems();
-
-            var viewModel = new CourseViewModel()
+            if (model.Course != null)
             {
-                Course = new Course(),
-                Teachers = teachers,
-                Addresses = addresses
-            };
+                return View(model);
+            }
+            else
+            {
+                var viewModel = new CourseViewModel()
+                {
+                    Course = new Course(),
+                    Teachers = GetTeachersAsSelectListItems(),
+                    Addresses = GetAddressesAsSelectListItems()
+                };
 
-            return View(viewModel);
+                return View(viewModel);
+            }
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CourseViewModel viewModel)
+        public ActionResult CreateCourse(CourseViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -105,15 +108,11 @@ namespace CourseEnrollmentApp.Controllers
                 .Include(c => c.Teacher)
                 .FirstOrDefault(c => c.CourseId == id);
 
-            var teachers = GetTeachersAsSelectListItems();
-
-            var addresses = GetAddressesAsSelectListItems();
-
             var viewModel = new CourseViewModel()
             {
                 Course = course,
-                Teachers = teachers,
-                Addresses = addresses
+                Teachers = GetTeachersAsSelectListItems(),
+                Addresses = GetAddressesAsSelectListItems()
             };
 
             if (viewModel.Course == null)
@@ -198,7 +197,8 @@ namespace CourseEnrollmentApp.Controllers
 
             foreach (var enrollment in enrollments)
             {
-                enrollment.Status = EnrollmentStatus.Archived;
+                db.Enrollments.Remove(enrollment);
+                //enrollment.Status = EnrollmentStatus.Archived;
             }
 
             Course course = db.Courses.Find(id);
@@ -210,8 +210,9 @@ namespace CourseEnrollmentApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddNewTeacher()
+        public ActionResult AddNewTeacher(CourseViewModel model)
         {
+            TempData["ViewModel"] = model;
             return View();
         }
 
@@ -221,12 +222,17 @@ namespace CourseEnrollmentApp.Controllers
             db.Teachers.Add(teacher);
             db.SaveChanges();
 
-            return RedirectToAction("Create");
+            var model = (CourseViewModel)TempData["ViewModel"];
+            model.Addresses = new SelectList(GetAddressesAsSelectListItems(), "Value", "Text", model.Course.AddressId);
+            model.Teachers = new SelectList(GetTeachersAsSelectListItems(), "Value", "Text", teacher.TeacherId);
+
+            return View("Create", (CourseViewModel)TempData["ViewModel"]);
         }
 
         [HttpGet]
-        public ActionResult AddNewAddress()
+        public ActionResult AddNewAddress(CourseViewModel model)
         {
+            TempData["ViewModel"] = model;
             return View();
         }
 
@@ -237,7 +243,11 @@ namespace CourseEnrollmentApp.Controllers
             db.Addresses.Add(address);
             db.SaveChanges();
 
-            return RedirectToAction("Create");
+            var model = (CourseViewModel)TempData["ViewModel"];
+            model.Addresses = new SelectList(GetAddressesAsSelectListItems(), "Value", "Text", address.AddressId.ToString());
+            model.Teachers = new SelectList(GetTeachersAsSelectListItems(), "Value", "Text", model.Course.TeacherId);
+
+            return View("Create", (CourseViewModel)TempData["ViewModel"]);
         }
 
         #region UtilityMethods
@@ -249,7 +259,7 @@ namespace CourseEnrollmentApp.Controllers
                         {
                             Text = t.FirstName + " " + t.LastName,
                             Value = t.TeacherId.ToString(),
-                        }).AsEnumerable();
+                        }).ToList();
 
             return teachers;
         }
@@ -262,7 +272,7 @@ namespace CourseEnrollmentApp.Controllers
                             {
                                 Text = a.Street + " " + a.HouseNumber + ", " + a.City + " " + a.Country,
                                 Value = a.AddressId.ToString()
-                            }).AsEnumerable();
+                            }).ToList();
 
             return addresses;
         }

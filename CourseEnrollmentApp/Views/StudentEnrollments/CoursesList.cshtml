@@ -6,12 +6,16 @@
 }
 
 @helper ApplyToThisCourseActionLink(int idValue, string enabledOrDisabled = "") { 
-    @Html.ActionLink("Apply for this course", "Enroll", "StudentEnrollments", new { CourseId = idValue}, new { @class = "btn btn-primary " + enabledOrDisabled })
+    @Html.ActionLink("Apply for this course", "Enroll", "StudentEnrollments", new { CourseId = idValue}, 
+                    new { @class = "btn btn-primary " + enabledOrDisabled })
 }
 
 @helper AddToCartActionLink(int idValue, string enabledOrDisabled = "")
 {
-    <a class="btn btn-link @enabledOrDisabled" href="@Url.Action("AddToCart", "Cart", new { id = idValue })">Add to cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+    <a class="btn btn-link @enabledOrDisabled" 
+       href="@Url.Action("AddToCart", "Cart", new { id = idValue })">
+       Add to cart <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+    </a>
 }
 
 <h2>Courses we offer</h2>
@@ -147,7 +151,8 @@
                     }
                     else
                     {
-                        if (Session["AlreadyAppliedCourses"] != null && ((IList<int>)Session["AlreadyAppliedCourses"]).Contains(item.CourseId))
+                        if (Session["AlreadyAppliedCourses"] != null 
+                            && ((IList<int>)Session["AlreadyAppliedCourses"]).Contains(item.CourseId))
                         {
                             <p><i class="fa fa-check"></i> Successfully applied!</p>
                         }

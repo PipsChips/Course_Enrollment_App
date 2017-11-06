@@ -30,14 +30,16 @@
                 @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.Course.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Course.TeacherId, Model.Teachers, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Course.TeacherId, Model.Teachers, 
+                                        htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Course.TeacherId, "", new { @class = "text-danger" })
 
-                @Html.ActionLink("Add new Teacher", "AddNewTeacher", null, htmlAttributes: new { @class = "btn btn-info" })
+                @*@Html.ActionLink("Add new Teacher", "AddNewTeacher", null, htmlAttributes: new { @class = "btn btn-info" })*@
+                <input type="submit" value="Add new Teacher" formmethod="get" formaction="AddNewTeacher" class="btn btn-info"/>
             </div>
         </div>
 
@@ -46,7 +48,10 @@
             <div class="col-md-10">
                 <div class="col-md-4" style="padding:0">
                     <div class='input-group date' id='datetimepickerCreateIcon'>
-                        @Html.EditorFor(model => model.Course.StartingDate, new { htmlAttributes = new { @class = "form-control", id = "datetimepickerCreateText", placeholder="YYYY/MM/DD", type = "text" } })
+                        @Html.EditorFor(model => model.Course.StartingDate, new { htmlAttributes = new { @class = "form-control",
+                                                                                                         @id = "datetimepickerCreateText",
+                                                                                                         @placeholder ="YYYY/MM/DD",
+                                                                                                         @type = "text" } })
                         <span class="input-group-addon">
                             <span class="fa fa-calendar">
                             </span>
@@ -63,7 +68,8 @@
                 @Html.DropDownListFor(model => model.Course.AddressId, Model.Addresses, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Course.AddressId, "", new { @class = "text-danger" })
 
-                @Html.ActionLink("Add new Address", "AddNewAddress", null, htmlAttributes: new { @class = "btn btn-info" })
+                @*@Html.ActionLink("Add new Address", "AddNewAddress", null, htmlAttributes: new { @class = "btn btn-info" })*@
+                <input type="submit" value="Add new Address" formmethod="get" formaction="AddNewAddress" class="btn btn-info" />
             </div>
         </div>
 
@@ -88,7 +94,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" formmethod="post" formaction="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -114,8 +120,9 @@
                 var editCreateCalendarSettings = {
                     viewMode: 'years',
                     format: 'YYYY/MM/DD',
+                    useCurrent: false,
                     daysOfWeekDisabled: [0, 6],
-                    minDate: new Date(yyyy, mm - 1, dd + 7),
+                    //minDate: new Date(yyyy, mm - 1, dd + 7),
                     icons: {
                         date: "fa fa-calendar",
                     }

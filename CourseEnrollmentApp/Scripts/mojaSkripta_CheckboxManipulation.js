@@ -97,7 +97,7 @@
             }
 
             if ($checkedAcceptedRows.length === 0 && $checkedArchivedRows.length === 0
-                && isThere_more_Checked_Declined_Or_Undefined_Enrollments_Per_Course_Than_Places_Left_In_Course() === false) {
+                && isThere_more_Checked_Enrollments_Per_Course_Than_Places_Left_On_Course() === false) {
 
                 $acceptSelectedButton.attr('disabled', false);
             }
@@ -127,7 +127,7 @@
             return self.indexOf(value) === index;
         }
 
-        function isThere_more_Checked_Declined_Or_Undefined_Enrollments_Per_Course_Than_Places_Left_In_Course()
+        function isThere_more_Checked_Enrollments_Per_Course_Than_Places_Left_On_Course()
         {
             if (listOfDistinctCourseIdsOfCheckedDecleinedAndUndefinedRows.length > 0) {
                 var isThere;

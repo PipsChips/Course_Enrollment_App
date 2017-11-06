@@ -9,7 +9,9 @@
 <h2>Your Courses</h2>
 
 <p>
-    @Html.ActionLink("Add more courses to your cart", "CoursesList", controllerName: "StudentEnrollments", routeValues: null, htmlAttributes: new { @class="btn btn-link" })
+    @Html.ActionLink("Add more courses to your cart", "CoursesList", controllerName: "StudentEnrollments", 
+                                                                     routeValues: null, 
+                                                                     htmlAttributes: new { @class="btn btn-link" })
 </p>
 
 @if (Model == null || Model.Count() == 0)
@@ -76,10 +78,14 @@ else
                     @Html.DisplayFor(modelItem => item.Available)
                 </td>
                 <td>
-                    @Html.ActionLink("Remove item from Cart", "RemoveItem", new { id = item.CourseId }, new { @class = "btn btn-sm btn-link" })
+                    @Html.ActionLink("Remove item from Cart", "RemoveItem", new { id = item.CourseId }, 
+                                                                            new { @class = "btn btn-sm btn-link" })
                 </td>
                 <td>
-                    @Html.ActionLink("Apply for this course", actionName: "Enroll", controllerName: "StudentEnrollments", routeValues: new { CourseId = item.CourseId }, htmlAttributes: new { @class = "btn btn-sm btn-info" })
+                    @Html.ActionLink("Apply for this course", actionName: "Enroll", 
+                                                              controllerName: "StudentEnrollments", 
+                                                              routeValues: new { CourseId = item.CourseId }, 
+                                                              htmlAttributes: new { @class = "btn btn-sm btn-info" })
                 </td>
             </tr>
         }
