@@ -204,6 +204,12 @@ namespace CourseEnrollmentApp.Controllers
             Course course = db.Courses.Find(id);
             db.Courses.Remove(course);
 
+            if (Session["Cart"] != null)
+            {
+                var item = ((IList<Course>)Session["Cart"]).FirstOrDefault(c => c.CourseId == course.CourseId);
+                ((IList<Course>)Session["Cart"]).Remove(item);
+            }
+
             db.SaveChanges();
 
             return RedirectToAction("Index");
