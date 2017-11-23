@@ -21,16 +21,6 @@
 }
 else
 {
-    using (Html.BeginForm("Enroll", "StudentEnrollments", FormMethod.Get))
-    {
-        foreach (var course in Model)
-        {
-            @Html.Hidden("CourseId", course.CourseId)
-        }
-        
-        <input type="submit" value="Apply for all Courses in Cart" class="btn btn-lg btn-info" />
-    }
-
     <table class="table">
         <tr>
             <th hidden>
@@ -91,6 +81,18 @@ else
         }
         
     </table>
+
+    <div style="text-align: right; padding-right: 30px;">
+        @using (Html.BeginForm("Enroll", "StudentEnrollments", FormMethod.Get))
+        {
+            foreach (var course in Model)
+            {
+                @Html.Hidden("CourseId", course.CourseId);
+            }
+
+            <input type="submit" value="Apply for all Courses in Cart" class="btn btn-lg btn-primary" />
+        }
+    </div>
 }
 
 
