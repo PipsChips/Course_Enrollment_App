@@ -1,5 +1,5 @@
 # CourseEnrollmentApp
-Simple (C# .NET MVC) Web App where students can enroll in courses, and admins can manipulate student enrollments.
+Simple (C# .NET MVC & JS(jQuery)) Web App where students can enroll in courses, and admins can manipulate student enrollments.
 
 Feel free to: add/edit/delete YOUR OWN courses; apply for EXISTING (or NEW) courses; sign in as an administrator and manipulate with enrollments.
 
