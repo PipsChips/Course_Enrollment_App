@@ -5,7 +5,7 @@ Feel free to:
 * apply for EXISTING courses
 * sign in as an administrator and:
   * add/edit/delete YOUR OWN courses
-  * manipulate with student enrollments
+  * manipulate with (existing/new) student enrollments
 * apply for newly created courses
 
 Link: http://courseenrollment.azurewebsites.net
